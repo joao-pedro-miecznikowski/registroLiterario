@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Meu Catálogo de Livros</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4">Meus Livros</h1>
+        <a href="{{ url_for('adicionar') }}" class="btn btn-primary mb-3">Adicionar Livro</a>
+        <div class="row">
+            {% for livro in livros %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src="{{ url_for('static', filename='uploads/' + livro.capa) }}" class="card-img-top" alt="Capa do livro">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ livro.titulo }}</h5>
+                        <p class="card-text">Autor: {{ livro.autor }}</p>
+                        <p class="card-text">Nota:
+                        {% macro estrelas(nota) %}
+                            {% for i in range(nota) %}
+                                <span style="color: gold;">★</span>
+                            {% endfor %}
+                            {% for i in range(5 - nota) %}
+                                <span style="color: lightgray;">☆</span>
+                            {% endfor %}
+                        {% endmacro %}
+                        {{ estrelas(livro.nota) }}
+                        </p>
+                        <a href="{{ url_for('detalhes', id=livro.id) }}" class="btn btn-secondary">Detalhes</a>
+                        <form method="POST" action="{{ url_for('remover', id=livro.id) }}">
+                            <button type="submit" class="btn btn-danger mt-2">Remover</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

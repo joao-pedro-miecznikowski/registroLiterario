@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ livro.titulo }}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4">{{ livro.titulo }}</h1>
+        <div class="row">
+            <div class="col-md-4">
+                <img src="{{ url_for('static', filename='uploads/' + livro.capa) }}" style="max-width: 200px; max-height: 300px;" alt="Capa do livro">
+            </div>
+            <div class="col-md-8">
+                <p><strong>Autor:</strong> {{ livro.autor }}</p>
+                <p><strong>Data de Início:</strong> {{ data_inicio }}</p>
+                <p><strong>Data de Término:</strong> {{ data_fim }}</p>
+                <p><strong>Valor:</strong> R$ {{ "%.2f" % livro.valor }}</p>
+                <p><strong>Nota:</strong>
+                {% macro estrelas(nota) %}
+                    {% for i in range(nota) %}
+                        <span style="color: gold;">★</span>
+                    {% endfor %}
+                    {% for i in range(5 - nota) %}
+                        <span style="color: lightgray;">☆</span>
+                    {% endfor %}
+                {% endmacro %}
+                {{ estrelas(livro.nota) }}
+                </p>
+                <p><strong>Descrição:</strong> {{ livro.descricao }}</p>
+                <a href="{{ url_for('editar', id=livro.id) }}" class="btn btn-primary">Editar</a>
+                <a href="/" class="btn btn-secondary">Voltar</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
